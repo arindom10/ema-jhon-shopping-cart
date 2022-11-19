@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
     addToDb,
     deleteShoppingCart,
@@ -78,6 +79,9 @@ const Shop = () => {
             </div>
             <div className="card-container">
                 <Cart clearCart={clearCart} cart={cart}></Cart>
+                <Link to="/orders">
+                    <button>Review Order</button>
+                </Link>
             </div>
         </div>
     );
