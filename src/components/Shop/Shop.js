@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { addToDb, getStoredCart } from "../../utilities/fakedb";
+import {
+    addToDb,
+    deleteShoppingCart,
+    getStoredCart,
+} from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
@@ -7,6 +11,12 @@ import "./Shop.css";
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+
+    const clearCart = () => {
+        setCart([]);
+        deleteShoppingCart();
+    };
+
     useEffect(() => {
         // console.log("products load before fetch");
         fetch(
@@ -67,7 +77,7 @@ const Shop = () => {
                 ))}
             </div>
             <div className="card-container">
-                <Cart cart={cart}></Cart>
+                <Cart clearCart={clearCart} cart={cart}></Cart>
             </div>
         </div>
     );
