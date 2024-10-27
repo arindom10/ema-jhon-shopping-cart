@@ -19,19 +19,16 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    // console.log("products load before fetch");
     fetch(
       "https://raw.githubusercontent.com/ProgrammingHero1/ema-john-resources/main/fakeData/products.json"
     )
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
-        // console.log("products loaded");
       });
   }, []);
 
   useEffect(() => {
-    // console.log("Local Storage first line");
     const storedCart = getStoredCart();
     const savedCart = [];
     for (const id in storedCart) {
@@ -43,11 +40,9 @@ const Shop = () => {
       }
     }
     setCart(savedCart);
-    // console.log("Local storage finish");
   }, [products]);
 
   const handleAddToCart = (selectedProduct) => {
-    console.log(selectedProduct);
     let newCart = [];
     const exists = cart.find((product) => product.id === selectedProduct.id);
     if (!exists) {
@@ -55,7 +50,7 @@ const Shop = () => {
       newCart = [...cart, selectedProduct];
     } else {
       const rest = cart.filter((product) => product.id !== selectedProduct.id);
-      exists.quantity = exists.quantity + 1;
+      exists.quantity += 1;
       newCart = [...rest, exists];
     }
     setCart(newCart);
@@ -81,25 +76,40 @@ const Shop = () => {
   };
 
   return (
-    <div className="shop-container">
-      <div className="products-container">
+    <div className="flex">
+      {/* Product List Section */}
+      <div className="w-3/4 p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {products.map((product) => (
           <Product
             key={product.id}
             product={product}
             handleAddToCart={handleAddToCart}
-          ></Product>
+          />
         ))}
       </div>
-      <div className="card-container">
-        <Cart
-          clearCart={clearCart}
-          cart={cart}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-        ></Cart>
-        <Link to="/orders">
-          <button>Review Order</button>
+
+      {/* Order Summary Section */}
+      <div className="w-full lg:w-1/4 p-5 bg-white shadow-lg rounded-lg lg:sticky top-0 h-screen flex flex-col items-center space-y-4">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Order Summary
+        </h2>
+
+        <div
+          className="overflow-y-auto w-full px-4"
+          style={{ maxHeight: "65vh" }}
+        >
+          <Cart
+            clearCart={clearCart}
+            cart={cart}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+          />
+        </div>
+
+        <Link to="/orders" className="w-full px-4">
+          <button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg shadow-md transition duration-200">
+            Review Order
+          </button>
         </Link>
       </div>
     </div>

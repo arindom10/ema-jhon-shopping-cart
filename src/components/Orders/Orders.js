@@ -50,8 +50,11 @@ const Orders = () => {
           />
         ))}
         {cart.length === 0 && (
-          <h2>
-            No Item For Review!! <Link to="/">Please Shop..!!</Link>
+          <h2 className="text-4xl">
+            No Item For Review!!{" "}
+            <Link className="text-red-400 hover:text-red-900" to="/">
+              Please Shop..!!
+            </Link>
           </h2>
         )}
       </div>

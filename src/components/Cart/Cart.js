@@ -1,5 +1,4 @@
 import React from "react";
-import "./Cart.css";
 import { Link } from "react-router-dom";
 
 const Cart = ({
@@ -23,41 +22,74 @@ const Cart = ({
   const grandTotal = total + shipping + tax;
 
   return (
-    <div className="cart">
-      <h3>Order Summary</h3>
-      <p>Selected Items: {quantity}</p>
-      <p>Total Price: ${total.toFixed(2)}</p>
-      <p>Total Shipping Charge: ${shipping.toFixed(2)}</p>
-      <p>Tax: ${tax}</p>
-      <h4>Grand Total: ${grandTotal.toFixed(2)}</h4>
+    <div className="cart w-full p-5 bg-white shadow-lg rounded-lg">
+      <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+      <p className="text-gray-700">
+        Selected Items: <span className="font-bold">{quantity}</span>
+      </p>
+      <p className="text-gray-700">
+        Total Price: <span className="font-bold">${total.toFixed(2)}</span>
+      </p>
+      <p className="text-gray-700">
+        Total Shipping Charge:{" "}
+        <span className="font-bold">${shipping.toFixed(2)}</span>
+      </p>
+      <p className="text-gray-700">
+        Tax: <span className="font-bold">${tax}</span>
+      </p>
+      <h4 className="text-lg font-bold mt-2">
+        Grand Total:{" "}
+        <span className="text-blue-600">${grandTotal.toFixed(2)}</span>
+      </h4>
 
-      <div className="cart-items">
+      <div className="cart-items mt-4 space-y-4">
         {cart.map((product) => (
-          <div key={product.id} className="cart-item">
+          <div
+            key={product.id}
+            className="cart-item p-4 bg-gray-50 rounded-lg shadow-sm flex justify-between items-center"
+          >
             <div className="cart-item-details">
-              <p>{product.name}</p>
-              <p>Unit Price: ${product.price.toFixed(2)}</p>
-              <p>Quantity: {product.quantity}</p>
-              <p>
-                Total Item Price: $
-                {(product.price * product.quantity).toFixed(2)}
+              <p className="text-gray-800 font-medium">{product.name}</p>
+              <p className="text-gray-600">
+                Unit Price:{" "}
+                <span className="font-bold">${product.price.toFixed(2)}</span>
               </p>
-              <div className="quantity-buttons">
-                <button onClick={() => handleIncrement(product.id)}>+</button>
-                <button
-                  onClick={() => handleDecrement(product.id)}
-                  disabled={product.quantity <= 1}
-                >
-                  -
-                </button>
-              </div>
+              <p className="text-gray-600">
+                Quantity: <span className="font-bold">{product.quantity}</span>
+              </p>
+              <p className="text-gray-600">
+                Total Item Price:{" "}
+                <span className="font-bold">
+                  ${(product.price * product.quantity).toFixed(2)}
+                </span>
+              </p>
+            </div>
+            <div className="quantity-buttons flex space-x-2">
+              <button
+                onClick={() => handleIncrement(product.id)}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded transition duration-200"
+              >
+                +
+              </button>
+              <button
+                onClick={() => handleDecrement(product.id)}
+                disabled={product.quantity <= 1}
+                className={`bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded transition duration-200 ${
+                  product.quantity <= 1 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                -
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      <button onClick={clearCart}>
-        <p>Clear Cart</p>
+      <button
+        onClick={clearCart}
+        className="mt-5 w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 rounded-lg transition duration-200"
+      >
+        Clear Cart
       </button>
       {children}
     </div>
